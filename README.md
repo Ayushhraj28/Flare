@@ -1,4 +1,4 @@
-# Flare — your Apple Watch is the mouse
+# Flare — your Watch is the mouse
 
 *Flare was called Gauntlet until November 2026. The Swift package, module names and the bundle identifier (`dev.sunhacks.gauntlet`) keep the old name, so existing permissions, pairings and the Gemini key carry over; everything you see says Flare.*
 
