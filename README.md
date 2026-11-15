@@ -4,7 +4,7 @@
 
 Lift your arm toward the screen and point. The cursor follows your forearm; a finger tap clicks; a flick of the wrist right-clicks. No mouse, no trackpad, nothing in your hand.
 
-| You do this | The Mac does this |
+| You do this | The Laptop does this |
 |---|---|
 | Lift your forearm toward the screen | Pointer engages (lower it to the keyboard to release) |
 | Swing your forearm left / right / up / down | Pointer moves — slow for precision, fast to cross the screen |
