@@ -1,0 +1,17 @@
+.build*/
+dist/
+Scripts/AppIcon.iconset/
+*.xcuserstate
+xcuserdata/
+DerivedData/
+.DS_Store
+
+# build output
+.build*/
+.swiftpm/
+DerivedData/
+dist/
+.DS_Store
+.env
+.env.*
+.june/

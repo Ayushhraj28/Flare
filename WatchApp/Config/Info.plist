@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDisplayName</key>
+	<string>Flare</string>
+	<key>WKApplication</key>
+	<true/>
+	<key>WKWatchOnly</key>
+	<true/>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Flare uses Bluetooth to send your wrist movement, taps and Digital Crown turns to the Flare app on your Mac, so your arm can move the pointer.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Flare reads the watch's gyroscope and accelerometer to turn the way you move your forearm into pointer movement, clicks and scrolling on your Mac.</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>Flare shows your live heart rate on the watch and in the Mac app while a session is running. Nothing is read from your Health history.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>Flare starts a workout session only so the watch keeps streaming motion when you lower your wrist. The workout is discarded when you end the session and is never saved to Health.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Flare sends what you say to June, the assistant in the Flare app on your Mac, only while June is on. Your Mac listens for "Hey June"; nothing is sent anywhere before you say it.</string>
+	<key>WKBackgroundModes</key>
+	<array>
+		<string>workout-processing</string>
+		<string>physical-therapy</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-central</string>
+		<string>audio</string>
+	</array>
+</dict>
+</plist>

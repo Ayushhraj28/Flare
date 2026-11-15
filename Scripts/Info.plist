@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleName</key>
+	<string>Flare</string>
+	<key>CFBundleDisplayName</key>
+	<string>Flare</string>
+	<key>CFBundleIdentifier</key>
+	<string>dev.sunhacks.gauntlet</string>
+	<key>CFBundleExecutable</key>
+	<string>Flare</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>14.0</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.utilities</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Flare uses Bluetooth to receive motion and gestures from your Apple Watch so it can act as your mouse.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>dev.sunhacks.gauntlet.june</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>flare</string>
+				<string>gauntlet</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSDesktopFolderUsageDescription</key>
+	<string>June opens files and folders on your Desktop when you ask.</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>June opens files and folders in Documents when you ask.</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>June opens files in Downloads when you ask.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>June listens through the microphone only to hear your voice commands. Wake-word detection runs on this Mac; nothing is sent anywhere until you say "Hey June" or hold to talk.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>June turns your speech into text on this Mac (on-device) so it can understand your commands.</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>June asks Finder which files you've selected and which folder a window shows, and can save notes to Apple Notes when you ask.</string>
+</dict>
+</plist>

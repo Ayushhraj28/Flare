@@ -1,0 +1,166 @@
+import Foundation
+import SwiftUI
+import GauntletProtocol
+
+/// `@LocalState` is plain `SwiftUI.State`.
+///
+/// With the command-line toolchain this project is checked with, `@State` resolves to a macro
+/// whose compiler plug-in ships only inside Xcode. The alias always selects the property
+/// wrapper, so the same source type-checks without Xcode and builds unchanged with it.
+typealias LocalState = SwiftUI.State
+
+/// The Flare palette: titanium plate, Flare orange, ember.
+enum Palette {
+    /// #0E1014, near-black plate
+    static let background = Color(red: 14.0 / 255.0, green: 16.0 / 255.0, blue: 20.0 / 255.0)
+    /// #1C2026, slightly lifted surface for buttons and rows.
+    static let panel = Color(red: 28.0 / 255.0, green: 32.0 / 255.0, blue: 38.0 / 255.0)
+    /// #FF7A30, Flare orange (the main accent).
+    static let flare = Color(red: 255.0 / 255.0, green: 122.0 / 255.0, blue: 48.0 / 255.0)
+    /// #FF9658, lighter ember for secondary states (dragging, calibration).
+    static let ember = Color(red: 255.0 / 255.0, green: 150.0 / 255.0, blue: 88.0 / 255.0)
+    /// #3DFFA2
+    static let green = Color(red: 61.0 / 255.0, green: 255.0 / 255.0, blue: 162.0 / 255.0)
+    /// #FFB020
+    static let amber = Color(red: 255.0 / 255.0, green: 176.0 / 255.0, blue: 32.0 / 255.0)
+    /// #FF4D6D
+    static let red = Color(red: 255.0 / 255.0, green: 77.0 / 255.0, blue: 109.0 / 255.0)
+    /// #FFB966, June's colour.
+    static let june = Color(red: 255.0 / 255.0, green: 185.0 / 255.0, blue: 102.0 / 255.0)
+    static let grey = Color(white: 0.5)
+    static let textDim = Color(white: 0.66)
+}
+
+/// What the Mac is doing with our input, reduced to the one thing worth showing at a glance.
+enum ControlMode: Equatable {
+    case paused
+    case dragging
+    case scrolling
+    case engaged
+    case released
+
+    init(_ flags: MacStateFlags) {
+        if flags.contains(.paused) {
+            self = .paused
+        } else if flags.contains(.dragging) {
+            self = .dragging
+        } else if flags.contains(.scrollMode) {
+            self = .scrolling
+        } else if flags.contains(.engaged) {
+            self = .engaged
+        } else {
+            self = .released
+        }
+    }
+
+    /// One word, always upper case.
+    var label: String {
+        switch self {
+        case .paused: return "PAUSED"
+        case .dragging: return "GRAB"
+        case .scrolling: return "SCROLL"
+        case .engaged: return "LIVE"
+        case .released: return "READY"
+        }
+    }
+
+    /// A short line under the label saying what to do next.
+    var hint: String {
+        switch self {
+        case .paused: return "Resume in Actions"
+        case .dragging: return "Flick in to drop"
+        case .scrolling: return "Move to scroll"
+        case .engaged: return "Pinch to click"
+        case .released: return "Raise to point"
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .paused: return Palette.grey
+        case .dragging: return Palette.ember
+        case .scrolling: return Palette.amber
+        case .engaged: return Palette.flare
+        case .released: return Palette.flare.opacity(0.35)
+        }
+    }
+
+    var symbol: String {
+        switch self {
+        case .paused: return "pause.fill"
+        case .dragging: return "hand.draw.fill"
+        case .scrolling: return "arrow.up.and.down"
+        case .engaged: return "scope"
+        case .released: return "hand.raised.fill"
+        }
+    }
+
+    /// The ring only moves while the pointer is live.
+    var animates: Bool {
+        switch self {
+        case .paused, .released: return false
+        case .dragging, .scrolling, .engaged: return true
+        }
+    }
+}
+
+/// How June (the assistant on the Mac) shows up on the watch.
+enum JuneLook: Equatable {
+    /// June is off or idle: the Control page shows the pointer state as usual.
+    case quiet
+    /// Hands-free: the mic is open for "Hey June" (a small indicator, nothing else changes).
+    case waiting
+    /// Recording a command: June takes over the ring.
+    case listening
+    case thinking
+
+    init(_ state: AssistantWatchState) {
+        switch state {
+        case .off, .idle: self = .quiet
+        case .waiting: self = .waiting
+        case .listening: self = .listening
+        case .thinking: self = .thinking
+        }
+    }
+
+    /// True while June owns the ring instead of the pointer state.
+    var takesOverRing: Bool { self == .listening || self == .thinking }
+
+    var label: String {
+        switch self {
+        case .quiet, .waiting: return "JUNE"
+        case .listening: return "LISTENING"
+        case .thinking: return "THINKING"
+        }
+    }
+
+    var hint: String {
+        switch self {
+        case .quiet: return "Hold mic to talk"
+        case .waiting: return "Say \u{201C}Hey June\u{201D}"
+        case .listening: return "Go ahead"
+        case .thinking: return "One moment"
+        }
+    }
+
+    var symbol: String {
+        switch self {
+        case .quiet, .waiting: return "mic.fill"
+        case .listening: return "waveform"
+        case .thinking: return "sparkles"
+        }
+    }
+
+    var color: Color { Palette.june }
+
+    /// What the wrist feels when June moves into `new` from `old`; nil = nothing.
+    static func haptic(from old: AssistantWatchState, to new: AssistantWatchState) -> HapticTone? {
+        guard old != new else { return nil }
+        switch new {
+        case .listening: return .directionUp        // "I'm listening"
+        case .thinking: return .click               // command captured
+        case .idle: return old == .thinking ? .success : nil
+        case .waiting, .off: return nil
+        }
+    }
+}
